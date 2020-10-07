@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './styles.css';
 import Navbar from "./Navbar"
+import RecordTemperature from "./RecordTemperature"
 
 function App() {
   return (
     <React.Fragment>
       <Navbar/>
+      <RecordTemperature/>
     </React.Fragment>
   );
 }
