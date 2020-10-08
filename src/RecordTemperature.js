@@ -1,67 +1,76 @@
 import React from 'react'
+import {useSelector, useDispatch} from 'react-redux'
+import {celsius,fahrenheit,invalidNumber,invalidPrecision,validNumber} from './actions'
+import {} from './actions'
 
-class RecordTemperature extends React.Component{
+function RecordTemperature() {
 
-    constructor(){
-        super()
-        this.state = {
-            tempError : "",
-            tempScale : "celsius"
-        }
-        console.log(this.state)
-    }
-
-    handleSubmit = () => {
+    const handleSubmit = () => {
         console.log("Hi")
     }
-
-    handleTempertureInput = (event) => {
+    const tempScale = useSelector(state => state.tempScale)
+    const tempError = useSelector(state => state.tempError)
+    const dispatch = useDispatch()
+    const handleTempertureInput = (event) => {
         const {value} = event.target
         let patt = /^((\d+)|(\d+\.\d{1,}))$/;
         let x = value.search(patt)
         if(x === -1){
-            this.setState(prevState => {
-                prevState.tempError = "Invalid number"
-                return prevState
-            })
+            dispatch(invalidNumber())
         }
         else{
             let temp = value.split(".")
             if(temp[1] != null && temp[1].length > 2){
-                this.setState(prevState => {
-                    prevState.tempError = "Only two digits after decimal"
-                    return prevState
-                })
+                dispatch(invalidPrecision())
             }
             else{
-                this.setState(prevState => {
-                    prevState.tempError = ""
-                    return prevState
-                })
+                dispatch(validNumber())
             }
         }
-        console.log(this.state)
     }
-
-    handleChange = (event) => {
+    const handleChange = (event) => {
         const {name, value} = event.target
         console.log(name+" "+value)
         this.setState({
             [name] : value
         })
-        console.log(this.state)
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <input placeholder="Name" type="text"/><br/>
-                <input placeholder="Body Temperature" type="text" value ={this.state.temp} onChange={this.handleTempertureInput}/><div className="error">{this.state.tempError}</div><br/>
-                <label><input type="radio" name="tempScale" value="celsius" checked={this.state.tempScale === "celsius"} onChange={this.handleChange}/>Celsius</label>
-                <label><input type="radio" name="tempScale" value="fahrenheit" checked={this.state.tempScale === "fahrenheit"} onChange={this.handleChange}/>Fahrenheit</label>
-            </form>
-        )
-    }
+    return (
+    <form>
+        <input 
+            placeholder="Name" 
+            type="text"/><br/>
+        
+        <input 
+            placeholder="Body Temperature" 
+            type="text" 
+            onChange={handleTempertureInput}/>
+                <div 
+                    className="error">
+                    {tempError}
+                </div>
+                <br/>
+            <label>
+                <input 
+                    type="radio" 
+                    name="tempScale" 
+                    value="celsius" 
+                    checked={tempScale === "celsius"} 
+                    onChange={() => dispatch(celsius())}/>
+                Celsius
+            </label>
+            <label>
+                <input 
+                    type="radio" 
+                    name="tempScale" 
+                    value="fahrenheit" 
+                    checked={tempScale === "fahrenheit"} 
+                    onChange={() => dispatch(fahrenheit())}/>
+                Fahrenheit
+            </label>
+        </form>
+    )
 }
 
 export default RecordTemperature

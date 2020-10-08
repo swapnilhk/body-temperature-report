@@ -3,6 +3,7 @@ import './styles.css';
 import Navbar from "./Navbar"
 import RecordTemperature from "./RecordTemperature"
 
+
 function App() {
   return (
     <React.Fragment>
