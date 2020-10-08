@@ -22,8 +22,26 @@ export const invalidPrecision = () => {
     }
 }
 
+export const emptyNumber = () => {
+    return {
+        type: "EMPTY_NUMBER"
+    }
+}
+
 export const validNumber = () => {
     return {
         type: "VALID_NUMBER"
+    }
+}
+
+export const emptyName = () => {
+    return {
+        type: "EMPTY_NAME"
+    }
+}
+
+export const validName = () => {
+    return {
+        type: "VALID_NAME"
     }
 }

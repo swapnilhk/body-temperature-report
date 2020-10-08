@@ -1,6 +1,6 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {celsius,fahrenheit,invalidNumber,invalidPrecision,validNumber} from './actions'
+import {celsius,fahrenheit,invalidNumber,invalidPrecision,validNumber,emptyNumber,validName, emptyName} from './actions'
 import {} from './actions'
 
 function RecordTemperature() {
@@ -10,38 +10,51 @@ function RecordTemperature() {
     }
     const tempScale = useSelector(state => state.tempScale)
     const tempError = useSelector(state => state.tempError)
+    const nameError = useSelector(state => state.nameError)
     const dispatch = useDispatch()
     const handleTempertureInput = (event) => {
         const {value} = event.target
-        let patt = /^((\d+)|(\d+\.\d{1,}))$/;
-        let x = value.search(patt)
-        if(x === -1){
-            dispatch(invalidNumber())
+        if (value == null || value === ""){
+            dispatch(emptyNumber())
+            console.log("ddddd")
         }
         else{
-            let temp = value.split(".")
-            if(temp[1] != null && temp[1].length > 2){
-                dispatch(invalidPrecision())
+            let patt = /^((\d+)|(\d+\.\d{1,}))$/;
+            let x = value.search(patt)
+            if(x === -1){
+                dispatch(invalidNumber())
             }
             else{
-                dispatch(validNumber())
+                let temp = value.split(".")
+                if(temp[1] != null && temp[1].length > 2){
+                    dispatch(invalidPrecision())
+                }
+                else{
+                    dispatch(validNumber())
+                }
             }
         }
     }
-    const handleChange = (event) => {
-        const {name, value} = event.target
-        console.log(name+" "+value)
-        this.setState({
-            [name] : value
-        })
+    const handleNameInput = (event) => {
+        const {value} = event.target
+        if(value == null || value === ""){
+            dispatch(emptyName())
+        }
+        else {
+            dispatch(validName())
+        }
     }
 
     return (
-    <form>
+    <form onSubmit={handleSubmit}>
         <input 
             placeholder="Name" 
-            type="text"/><br/>
-        
+            type="text"
+            onChange={handleNameInput}/>
+        <div 
+            className="error">
+            {nameError}
+        </div>
         <input 
             placeholder="Body Temperature" 
             type="text" 
@@ -68,6 +81,8 @@ function RecordTemperature() {
                 onChange={() => dispatch(fahrenheit())}/>
             Fahrenheit
         </label>
+        <br/>
+        <button>Submit</button>
     </form>
     )
 }
