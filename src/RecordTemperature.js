@@ -46,30 +46,29 @@ function RecordTemperature() {
             placeholder="Body Temperature" 
             type="text" 
             onChange={handleTempertureInput}/>
-                <div 
-                    className="error">
-                    {tempError}
-                </div>
-                <br/>
-            <label>
-                <input 
-                    type="radio" 
-                    name="tempScale" 
-                    value="celsius" 
-                    checked={tempScale === "celsius"} 
-                    onChange={() => dispatch(celsius())}/>
-                Celsius
-            </label>
-            <label>
-                <input 
-                    type="radio" 
-                    name="tempScale" 
-                    value="fahrenheit" 
-                    checked={tempScale === "fahrenheit"} 
-                    onChange={() => dispatch(fahrenheit())}/>
-                Fahrenheit
-            </label>
-        </form>
+        <div 
+            className="error">
+            {tempError}
+        </div>
+        <label>
+            <input 
+                type="radio" 
+                name="tempScale" 
+                value="celsius" 
+                checked={tempScale === "celsius"} 
+                onChange={() => dispatch(celsius())}/>
+            Celsius
+        </label>
+        <label>
+            <input 
+                type="radio" 
+                name="tempScale" 
+                value="fahrenheit" 
+                checked={tempScale === "fahrenheit"} 
+                onChange={() => dispatch(fahrenheit())}/>
+            Fahrenheit
+        </label>
+    </form>
     )
 }
 

@@ -4,11 +4,44 @@ header {
   padding-bottom: 40px;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 24px;
+  font-size: 32px;
   background-color: blueviolet;
   color: beige;
   display: block;
 }
 body {
   margin: 0px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+input[type=text] {
+  width: 100%;
+  padding: 12px 8px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 24px;
+  font-size: 20px;
+}
+
+input[type=radio] {
+  margin-top: 24px;
+  display: inline-block;
+  font-size: 20px;
+  padding: 12px 8px;
+}
+
+form { 
+  margin: 0 auto; 
+  width: 360px;
+}
+
+.error {
+  color: brown;
+}
+
+div {
+  margin-top: 10px;
+  font-size: 20px;
 }
