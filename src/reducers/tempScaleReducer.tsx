@@ -1,4 +1,6 @@
-const tempScaleReducer = (status = "celsius", action) => {
+import {Action} from "../interfaces/Action"
+
+const tempScaleReducer = (status = "celsius", action:Action) => {
     switch (action.type) {
         case 'CELSIUS':
             return 'celsius'

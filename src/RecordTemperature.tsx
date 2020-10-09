@@ -5,10 +5,11 @@ import {celsius,fahrenheit,invalidNumber,invalidPrecision,
     currTempUpdated,invalidCelsiusLow,invalidCelsiusHigh,
     invalidFahrenheitLow,invalidFahrenheitHigh} from './actions'
 import {} from './actions'
+import {State} from "./interfaces/State"
 
 function RecordTemperature() {
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event:any) => {
         event.preventDefault()
         let temp = event.target.temp.value
         if(tempScale === "fahrenheit"){
@@ -21,19 +22,19 @@ function RecordTemperature() {
             time: new Date().toISOString()
         }))
     }
-    const convertToF = (c) => {
+    const convertToF = (c:any) => {
         return (c * 9 / 5) + 32
     }
-    const convertToC = (f) => {
+    const convertToC = (f:any) => {
         return (f - 32) * 5 / 9
     }
-    const tempScale = useSelector(state => state.tempScale)
-    const tempError = useSelector(state => state.tempError)
-    const nameError = useSelector(state => state.nameError)
-    const currTemp = useSelector(state => state.currTemp)
-    const data = useSelector(state => state.data)
+    const tempScale = useSelector((state:State) => state.tempScale)
+    const tempError = useSelector((state:State) => state.tempError)
+    const nameError = useSelector((state:State) => state.nameError)
+    const currTemp = useSelector((state:State) => state.currTemp)
+    const data = useSelector((state:State) => state.data)
     const dispatch = useDispatch()
-    const handleTempertureInput = (event) => {
+    const handleTempertureInput = (event:any) => {
         const {value} = event.target
         dispatch(currTempUpdated(value))
         if (value == null || value === ""){
@@ -70,7 +71,7 @@ function RecordTemperature() {
             }
         }
     }
-    const handleNameInput = (event) => {
+    const handleNameInput = (event:any) => {
         const {value} = event.target
         if(value == null || value === ""){
             dispatch(emptyName())

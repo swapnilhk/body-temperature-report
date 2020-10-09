@@ -1,4 +1,6 @@
-const dataReducer = (state = [], action) => {
+import {Action} from "../interfaces/Action"
+
+const dataReducer = (state = [], action:Action) => {
     switch (action.type) {
         case "DATA_ADDED":
             state.push()

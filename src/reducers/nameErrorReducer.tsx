@@ -1,4 +1,6 @@
-const nameErrorReducer = (defaultState = "Name should not be empty", action) => {
+import {Action} from "../interfaces/Action"
+
+const nameErrorReducer = (defaultState = "Name should not be empty", action:Action) => {
     switch (action.type) {
         case "EMPTY_NAME":
             return "Name should not be empty"

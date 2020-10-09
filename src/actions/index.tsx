@@ -46,14 +46,14 @@ export const validName = () => {
     }
 }
 
-export const dataAdded = (data) => {
+export const dataAdded = (data:any) => {
     return {
         type: "DATA_ADDED",
         payload: data
     }
 }
 
-export const currTempUpdated = (data) => {
+export const currTempUpdated = (data:any) => {
     return {
         type: "CURR_TEMP_UPDATED",
         payload: data

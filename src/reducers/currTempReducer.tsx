@@ -1,4 +1,6 @@
-const currTempReducer = (state = "", action) => {
+import {Action} from "../interfaces/Action"
+
+const currTempReducer = (state = "", action:Action) => {
     switch (action.type) {
         case "CURR_TEMP_UPDATED":
             return action.payload

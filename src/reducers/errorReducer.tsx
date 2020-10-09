@@ -1,4 +1,6 @@
-const errorReducer = (defaultState = "Temprature should not be empty", action) => {
+import {Action} from "../interfaces/Action"
+
+const errorReducer = (defaultState = "Temprature should not be empty", action:Action) => {
     switch (action.type) {
         case "INVALID_NUMBER":
             return "Invalid number"
