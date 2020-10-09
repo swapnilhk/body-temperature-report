@@ -45,3 +45,10 @@ export const validName = () => {
         type: "VALID_NAME"
     }
 }
+
+export const dataAdded = (data) => {
+    return {
+        type: "DATA_ADDED",
+        payload: data
+    }
+}

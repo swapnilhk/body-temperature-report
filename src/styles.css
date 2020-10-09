@@ -35,6 +35,8 @@ input[type=radio] {
 form { 
   margin: 0 auto; 
   width: 360px;
+  background-color: cornsilk;
+  padding: 16px;
 }
 
 .error {
@@ -51,4 +53,28 @@ button {
   font-size: 20px;
   padding: 8px;
   border-radius: 4px;
+}
+
+table {
+  width: 60%;
+  border-collapse: collapse;
+  margin: 0 auto; 
+  width: 720px;
+}
+
+th {
+  border: 1px solid black;
+  height: 50px;
+  width: 240px;
+}
+
+td {
+  border: 1px solid black;
+  height: 50px;
+  width: 240px;
+}
+
+.center{
+  margin: auto;
+  width: 360px;  
 }

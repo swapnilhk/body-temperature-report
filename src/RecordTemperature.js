@@ -1,22 +1,35 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {celsius,fahrenheit,invalidNumber,invalidPrecision,validNumber,emptyNumber,validName, emptyName} from './actions'
+import {celsius,fahrenheit,invalidNumber,invalidPrecision,validNumber,emptyNumber,validName,emptyName,dataAdded} from './actions'
 import {} from './actions'
 
 function RecordTemperature() {
 
-    const handleSubmit = () => {
-        console.log("Hi")
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        let temp = event.target.temp.value
+        if(tempScale === "fahrenheit"){
+            //convert to celsius
+            temp = (temp - 32) * 5 / 9
+        }
+        dispatch(dataAdded({
+            name: event.target.name.value,
+            temp: temp,
+            time: new Date().getTime()
+        }))
+    }
+    const convertToF = (c) => {
+        return (c * 9 / 5) + 32
     }
     const tempScale = useSelector(state => state.tempScale)
     const tempError = useSelector(state => state.tempError)
     const nameError = useSelector(state => state.nameError)
+    const data = useSelector(state => state.data)
     const dispatch = useDispatch()
     const handleTempertureInput = (event) => {
         const {value} = event.target
         if (value == null || value === ""){
             dispatch(emptyNumber())
-            console.log("ddddd")
         }
         else{
             let patt = /^((\d+)|(\d+\.\d{1,}))$/;
@@ -46,23 +59,8 @@ function RecordTemperature() {
     }
 
     return (
-    <form onSubmit={handleSubmit}>
-        <input 
-            placeholder="Name" 
-            type="text"
-            onChange={handleNameInput}/>
-        <div 
-            className="error">
-            {nameError}
-        </div>
-        <input 
-            placeholder="Body Temperature" 
-            type="text" 
-            onChange={handleTempertureInput}/>
-        <div 
-            className="error">
-            {tempError}
-        </div>
+    <React.Fragment>
+    <div class="center">
         <label>
             <input 
                 type="radio" 
@@ -81,9 +79,48 @@ function RecordTemperature() {
                 onChange={() => dispatch(fahrenheit())}/>
             Fahrenheit
         </label>
-        <br/>
-        <button>Submit</button>
+    </div>
+    <br/>
+    <form onSubmit={handleSubmit}>
+        <input 
+            name="name"
+            placeholder="Name" 
+            type="text"
+            onChange={handleNameInput}/>
+        <div 
+            className="error">
+            {nameError}
+        </div>
+        <input
+            name= "temp" 
+            placeholder="Body Temperature" 
+            type="text" 
+            onChange={handleTempertureInput}/>
+        <div 
+            className="error">
+            {tempError}
+        </div>
+        
+        <button
+            disabled = {tempError !== "" ||  nameError !== ""}>
+            Submit
+        </button>
     </form>
+    <br/>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Body Temperature</th>
+            <th>Reported Time</th>
+        </tr>
+        {data.map(e => 
+            <tr>
+                <td>{e.name}</td>
+                <td>{tempScale === 'fahrenheit'? convertToF(e.temp): e.temp}</td>
+                <td>{e.time}</td>
+            </tr>)}
+    </table>
+    </React.Fragment>
     )
 }
 
