@@ -1,6 +1,9 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {celsius,fahrenheit,invalidNumber,invalidPrecision,validNumber,emptyNumber,validName,emptyName,dataAdded} from './actions'
+import {celsius,fahrenheit,invalidNumber,invalidPrecision,
+    validNumber,emptyNumber,validName,emptyName,dataAdded,
+    currTempUpdated,invalidCelsiusLow,invalidCelsiusHigh,
+    invalidFahrenheitLow,invalidFahrenheitHigh} from './actions'
 import {} from './actions'
 
 function RecordTemperature() {
@@ -10,24 +13,29 @@ function RecordTemperature() {
         let temp = event.target.temp.value
         if(tempScale === "fahrenheit"){
             //convert to celsius
-            temp = (temp - 32) * 5 / 9
+            temp = convertToC(temp)
         }
         dispatch(dataAdded({
             name: event.target.name.value,
             temp: temp,
-            time: new Date().getTime()
+            time: new Date().toISOString()
         }))
     }
     const convertToF = (c) => {
         return (c * 9 / 5) + 32
     }
+    const convertToC = (f) => {
+        return (f - 32) * 5 / 9
+    }
     const tempScale = useSelector(state => state.tempScale)
     const tempError = useSelector(state => state.tempError)
     const nameError = useSelector(state => state.nameError)
+    const currTemp = useSelector(state => state.currTemp)
     const data = useSelector(state => state.data)
     const dispatch = useDispatch()
     const handleTempertureInput = (event) => {
         const {value} = event.target
+        dispatch(currTempUpdated(value))
         if (value == null || value === ""){
             dispatch(emptyNumber())
         }
@@ -43,7 +51,21 @@ function RecordTemperature() {
                     dispatch(invalidPrecision())
                 }
                 else{
-                    dispatch(validNumber())
+                    //validations for celsius
+                    if(tempScale === 'celsius' && value < 30){
+                        dispatch(invalidCelsiusLow())
+                    }
+                    else if(tempScale === 'celsius' && value > 50){
+                        dispatch(invalidCelsiusHigh())
+                    }
+                    //validations for fahrenheit
+                    else if(tempScale === 'fahrenheit' && value < 86){
+                        dispatch(invalidFahrenheitLow())
+                    }
+                    else if(tempScale === 'fahrenheit' && value > 112){
+                        dispatch(invalidFahrenheitHigh())
+                    } 
+                    else dispatch(validNumber())
                 }
             }
         }
@@ -57,17 +79,26 @@ function RecordTemperature() {
             dispatch(validName())
         }
     }
+    const handleTempScaleChangeCelsius = () =>{
+        dispatch(celsius())
+        dispatch(currTempUpdated(convertToC(currTemp)))
+    }
+
+    const handleTempScaleChangefahrenheit = () =>{
+        dispatch(fahrenheit())
+        dispatch(currTempUpdated(convertToF(currTemp)))
+    }
 
     return (
     <React.Fragment>
-    <div class="center">
+    <div className="center">
         <label>
             <input 
                 type="radio" 
                 name="tempScale" 
                 value="celsius" 
                 checked={tempScale === "celsius"} 
-                onChange={() => dispatch(celsius())}/>
+                onChange={handleTempScaleChangeCelsius}/>
             Celsius
         </label>
         <label>
@@ -76,7 +107,7 @@ function RecordTemperature() {
                 name="tempScale" 
                 value="fahrenheit" 
                 checked={tempScale === "fahrenheit"} 
-                onChange={() => dispatch(fahrenheit())}/>
+                onChange={handleTempScaleChangefahrenheit}/>
             Fahrenheit
         </label>
     </div>
@@ -91,11 +122,13 @@ function RecordTemperature() {
             className="error">
             {nameError}
         </div>
-        <input
-            name= "temp" 
+        <input style={{width:"50%"}}
+            name="temp" 
             placeholder="Body Temperature" 
             type="text" 
-            onChange={handleTempertureInput}/>
+            onChange={handleTempertureInput}
+            value={currTemp}/>  {tempScale === 'celsius'?
+            <div style = {{display:"inline"}}>&#8451;</div> : <div style = {{display:"inline"}}>&#8457;</div>}
         <div 
             className="error">
             {tempError}
@@ -116,7 +149,9 @@ function RecordTemperature() {
         {data.map(e => 
             <tr>
                 <td>{e.name}</td>
-                <td>{tempScale === 'fahrenheit'? convertToF(e.temp): e.temp}</td>
+                <td>
+                    {tempScale === 'fahrenheit'? 
+                    <div style = {{display:"inline"}}>{convertToF(e.temp)}&#8457;</div> : <div style = {{display:"inline"}}>{e.temp}&#8451;</div>}</td>
                 <td>{e.time}</td>
             </tr>)}
     </table>

@@ -52,3 +52,34 @@ export const dataAdded = (data) => {
         payload: data
     }
 }
+
+export const currTempUpdated = (data) => {
+    return {
+        type: "CURR_TEMP_UPDATED",
+        payload: data
+    }
+}
+
+export const invalidCelsiusLow = () => {
+    return {
+        type: "INVALIC_CELSIUS_LOW"
+    }
+}
+
+export const invalidCelsiusHigh = () => {
+    return {
+        type: "INVALIC_CELSIUS_HIGH"
+    }
+}
+
+export const invalidFahrenheitLow = () => {
+    return {
+        type: "INVALIC_FAHRENHEIT_LOW"
+    }
+}
+
+export const invalidFahrenheitHigh = () => {
+    return {
+        type: "INVALIC_FAHRENHEIT_HIGH"
+    }
+}
