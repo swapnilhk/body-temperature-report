@@ -71,7 +71,7 @@ function RecordTemperature() {
                     else if(tempScale === 'fahrenheit' && value < 86){
                         dispatch(invalidFahrenheitLow())
                     }
-                    else if(tempScale === 'fahrenheit' && value > 112){
+                    else if(tempScale === 'fahrenheit' && value > 122){
                         dispatch(invalidFahrenheitHigh())
                     } 
                     else dispatch(validNumber())
