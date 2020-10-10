@@ -23,10 +23,18 @@ function RecordTemperature() {
         }))
     }
     const convertToF = (c:any) => {
-        return (c * 9 / 5) + 32
+        if(c !== null && c !== ""){
+            return (c * 9 / 5) + 32
+        }
+        else return null
+
+
     }
     const convertToC = (f:any) => {
-        return (f - 32) * 5 / 9
+        if(f !== null && f !== ""){
+            return (f - 32) * 5 / 9
+        }
+        else return null
     }
     const tempScale = useSelector((state:State) => state.tempScale)
     const tempError = useSelector((state:State) => state.tempError)
@@ -88,7 +96,7 @@ function RecordTemperature() {
     const handleTempScaleChangefahrenheit = () =>{
         dispatch(fahrenheit())
         dispatch(currTempUpdated(convertToF(currTemp)))
-    }
+     }
 
     return (
     <React.Fragment>
@@ -128,8 +136,10 @@ function RecordTemperature() {
             placeholder="Body Temperature" 
             type="text" 
             onChange={handleTempertureInput}
-            value={currTemp}/>  {tempScale === 'celsius'?
-            <div style = {{display:"inline"}}>&#8451;</div> : <div style = {{display:"inline"}}>&#8457;</div>}
+            value={currTemp}/>  {
+                tempScale === 'celsius' && currTemp !== null?
+                <div style = {{display:"inline"}}>&#8451;</div> : 
+                <div style = {{display:"inline"}}>&#8457;</div>}
         <div 
             className="error">
             {tempError}
